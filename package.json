@@ -1,0 +1,49 @@
+{
+  "name": "smart-number-input",
+  "version": "1.0.0",
+  "description": "A customizable number input component with formatting and validation",
+  "module": "index.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
+    }
+  },
+  "keywords": [
+    "input",
+    "number",
+    "formatting",
+    "validation",
+    "numeral"
+  ],
+  "author": "Geoffrey Wortham",
+  "license": "MIT",
+  "dependencies": {
+    "numeral": "^2.0.6"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shongzahToo/smart-number-input"
+  },
+  "bugs": {
+    "url": "https://github.com/shongzahToo/smart-number-input/issues"
+  },
+  "homepage": "https://github.com/shongzahToo/smart-number-input#readme"
+}
