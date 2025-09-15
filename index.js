@@ -97,10 +97,10 @@ function createNumberInput(element, options = {}) {
         if (!opts.allowNegative && parsed < 0) {
             reasons.push('negative-violation');
         }
-        if (opts.min !== undefined && parsed < opts.min) {
+        if (opts.min !== undefined && parsed <= opts.min) {
             reasons.push('min-violation');
         }
-        if (opts.max !== undefined && parsed > opts.max) {
+        if (opts.max !== undefined && parsed >= opts.max) {
             reasons.push('max-violation');
         }
 
