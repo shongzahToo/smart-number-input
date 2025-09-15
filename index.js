@@ -146,8 +146,8 @@ function createNumberInput(element, options = {}) {
             const candidate = current + delta;
 
             // Check bounds
-            if ((opts.min !== undefined && candidate < opts.min) ||
-                (opts.max !== undefined && candidate > opts.max) ||
+            if ((opts.min !== undefined && candidate <= opts.min) ||
+                (opts.max !== undefined && candidate >= opts.max) ||
                 (!opts.allowNegative && candidate < 0)) {
                 return;
             }
