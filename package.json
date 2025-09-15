@@ -1,6 +1,6 @@
 {
   "name": "smart-number-input",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A customizable number input component with formatting and validation",
   "module": "index.js",
   "main": "index.js",
