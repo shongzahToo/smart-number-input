@@ -8,8 +8,8 @@ function createNumberInput(element, options = {}) {
 
     // --- defaults ---
     const opts = {
-        focusFormat: options.focusFormat || '0,0[.]00',
-        blurFormat: options.blurFormat || '0,0.00',
+        focusFormat: options.focusFormat || "0.[0]",
+        blurFormat: options.blurFormat || "0.[0]",
         allowNegative: options.allowNegative !== undefined ? options.allowNegative : true,
         min: options.min,
         max: options.max,
@@ -134,7 +134,6 @@ function createNumberInput(element, options = {}) {
 
     function onFocus() {
         nativeSet.call(element, formatOrEmpty(_realValue, opts.focusFormat));
-        // optionally selectAll or set caret
     }
 
     function onKeydown(ev) {
