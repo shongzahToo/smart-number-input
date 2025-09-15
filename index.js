@@ -8,7 +8,7 @@ function createNumberInput(element, options = {}) {
 
     // --- defaults ---
     const opts = {
-        focusFormat: options.focusFormat || "0.[0]",
+        focusFormat: options.focusFormat || "0.[000000000000000]",
         blurFormat: options.blurFormat || "0.[0]",
         allowNegative: options.allowNegative !== undefined ? options.allowNegative : true,
         min: options.min,
@@ -20,11 +20,19 @@ function createNumberInput(element, options = {}) {
 
     // Save native descriptor to interact with the real underlying value safely
     const nativeDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
-    const nativeGet = nativeDescriptor.get;
-    const nativeSet = nativeDescriptor.set;
+
+    // Utility property to allow for direct text reading
+    Object.defineProperty(element, 'textValue', {
+        get() {
+            return nativeDescriptor.get.call(element)
+        },
+        set(v) {
+            nativeDescriptor.set.call(element, v)
+        }
+    })
 
     // Private numeric value (null for empty/invalid)
-    let _realValue = parseToNumber(nativeGet.call(element));
+    let _realValue = parseToNumber(element.textContent);
 
     // helper to safely parse with numeral -> returns number or null
     function parseToNumber(input) {
@@ -65,20 +73,14 @@ function createNumberInput(element, options = {}) {
             const valueStr = v == null ? '' : String(v);
             _realValue = parseToNumber(valueStr);
             callValueChangeCallback(_realValue, old);
-            nativeSet.call(
-                element,
-                formatOrEmpty(
-                    _realValue,
-                    document.activeElement === element ? opts.focusFormat : opts.blurFormat
-                )
-            );
+            element.textValue = formatOrEmpty(_realValue, document.activeElement === element ? opts.focusFormat : opts.blurFormat);
         },
         configurable: true
     });
 
     // Event handlers
     function onInput(ev) {
-        const raw = nativeGet.call(element);
+        const raw = element.textValue;
         const parsed = parseToNumber(raw);
 
         // Handle empty input
@@ -124,16 +126,16 @@ function createNumberInput(element, options = {}) {
             }
 
             // revert to formatted focus string to avoid leaving invalid characters
-            nativeSet.call(element, formatOrEmpty(_realValue, opts.focusFormat));
+            element.textValue = formatOrEmpty(_realValue, opts.focusFormat);
         }
     }
 
     function onBlur() {
-        nativeSet.call(element, formatOrEmpty(_realValue, opts.blurFormat));
+        element.textValue = formatOrEmpty(_realValue, opts.blurFormat);
     }
 
     function onFocus() {
-        nativeSet.call(element, formatOrEmpty(_realValue, opts.focusFormat));
+        element.textValue = formatOrEmpty(_realValue, opts.focusFormat);
     }
 
     function onKeydown(ev) {
@@ -152,8 +154,7 @@ function createNumberInput(element, options = {}) {
 
             const old = _realValue;
             _realValue = candidate;
-            nativeSet.call(element, formatOrEmpty(_realValue,
-                document.activeElement === element ? opts.focusFormat : opts.blurFormat));
+            element.textValue = formatOrEmpty(_realValue, document.activeElement === element ? opts.focusFormat : opts.blurFormat);
             callValueChangeCallback(_realValue, old);
         }
     }
@@ -164,7 +165,7 @@ function createNumberInput(element, options = {}) {
     element.addEventListener('keydown', onKeydown);
 
     // initialize displayed text to blurFormat (or keep native if desired)
-    nativeSet.call(element, formatOrEmpty(_realValue, opts.blurFormat));
+    element.textValue = formatOrEmpty(_realValue, opts.blurFormat)
 
     // return a destroy function so consumers can cleanup
     return {

@@ -65,7 +65,7 @@ Enhances an existing `<input>` (type can be `"text"` or `"number"`) to behave as
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `focusFormat` | `string` | `"0.[0]"` | Numeral.js format while the input has focus. |
+| `focusFormat` | `string` | `"0.[000000000000000]"` | Numeral.js format while the input has focus. It is recomended that you keep a high level of precision so as to not loose exact values that users input. |
 | `blurFormat` | `string` | `"0.[0]"` | Numeral.js format when blurred. |
 | `allowNegative` | `boolean` | `true` | Whether to allow negative values. |
 | `min` | `number` | `undefined` | Minimum allowed value (inclusive). |
@@ -82,6 +82,7 @@ Enhances an existing `<input>` (type can be `"text"` or `"number"`) to behave as
 - You can also use `el.value` to set the input field’s value using either a number or a string (formatted or unformatted). This is treated as a trusted action and bypasses validation.
 - When focused, the input uses `focusFormat`. When blurred, it uses `blurFormat`.
 - The module parses with numeral.js and enforces `min`, `max`, and `allowNegative` both on free typing and when stepping with Arrow keys.
+- `el.textValue` can be used to read the exact text content of an input field.
 
 ## TypeScript
 
