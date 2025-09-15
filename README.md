@@ -65,8 +65,8 @@ Enhances an existing `<input>` (type can be `"text"` or `"number"`) to behave as
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `focusFormat` | `string` | `"0,0[.]00"` | Numeral.js format while the input has focus. |
-| `blurFormat` | `string` | `"0,0.00"` | Numeral.js format when blurred. |
+| `focusFormat` | `string` | `"0.[0]"` | Numeral.js format while the input has focus. |
+| `blurFormat` | `string` | `"0.[0]"` | Numeral.js format when blurred. |
 | `allowNegative` | `boolean` | `true` | Whether to allow negative values. |
 | `min` | `number` | `undefined` | Minimum allowed value (inclusive). |
 | `max` | `number` | `undefined` | Maximum allowed value (inclusive). |
