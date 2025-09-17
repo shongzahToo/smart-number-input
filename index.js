@@ -32,7 +32,7 @@ function createNumberInput(element, options = {}) {
     })
 
     // Private numeric value (null for empty/invalid)
-    let _realValue = parseToNumber(element.textContent);
+    let _realValue = parseToNumber(element.textValue);
 
     // helper to safely parse with numeral -> returns number or null
     function parseToNumber(input) {
