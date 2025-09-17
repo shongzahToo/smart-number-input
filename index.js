@@ -96,12 +96,15 @@ function createNumberInput(element, options = {}) {
 
         if (!opts.allowNegative && parsed < 0) {
             reasons.push('negative-violation');
+            _realValue = 0
         }
         if (opts.min !== undefined && parsed < opts.min) {
             reasons.push('min-violation');
+            _realValue = opts.min
         }
         if (opts.max !== undefined && parsed > opts.max) {
             reasons.push('max-violation');
+            _realValue = opts.max
         }
 
         const valid = reasons.length === 0;
@@ -124,9 +127,6 @@ function createNumberInput(element, options = {}) {
                     console.warn('Error in invalidInputCallback:', e);
                 }
             }
-
-            // revert to formatted focus string to avoid leaving invalid characters
-            element.textValue = formatOrEmpty(_realValue, opts.focusFormat);
         }
     }
 
@@ -143,13 +143,17 @@ function createNumberInput(element, options = {}) {
             ev.preventDefault();
             const current = _realValue === null ? 0 : _realValue;
             const delta = (opts.stepValue || 1) * (ev.key === 'ArrowUp' ? 1 : -1);
-            const candidate = current + delta;
+            let candidate = current + delta;
 
             // Check bounds
-            if ((opts.min !== undefined && candidate < opts.min) ||
-                (opts.max !== undefined && candidate > opts.max) ||
-                (!opts.allowNegative && candidate < 0)) {
-                return;
+            if (opts.min !== undefined && candidate < opts.min) {
+                candidate = opts.min;
+            }
+            if (opts.max !== undefined && candidate > opts.max) {
+                candidate = opts.max;
+            }
+            if(opts.allowNegative !== undefined && candidate < 0) {
+                candidate = 0;
             }
 
             const old = _realValue;
