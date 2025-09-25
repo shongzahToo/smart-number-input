@@ -21,6 +21,9 @@ function createNumberInput(element, options = {}) {
     // Save native descriptor to interact with the real underlying value safely
     const nativeDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
     // Utility property to allow for direct text reading
+    if (Object.prototype.hasOwnProperty.call(element, 'textValue')) {
+        Reflect.deleteProperty(element, 'textValue');
+    }
     Object.defineProperty(element, 'textValue', {
         get() {
             return nativeDescriptor.get.call(element)
@@ -63,6 +66,10 @@ function createNumberInput(element, options = {}) {
     }
 
     // Override value to preserve HTML semantics: keep string interface but keep setter behaviour
+    
+    if (Object.prototype.hasOwnProperty.call(element, 'value')) {
+        Reflect.deleteProperty(element, 'value');
+    }
     Object.defineProperty(element, 'value', {
         get() {
             return _realValue === null ? "" : String(_realValue);
@@ -179,11 +186,12 @@ function createNumberInput(element, options = {}) {
             element.removeEventListener('focus', onFocus);
             element.removeEventListener('keydown', onKeydown);
 
-            // remove overridden own property so prototype's descriptor is used:
-            try {
-                 delete element.value; 
-                 delete element.textValue; 
-            } catch (e) { }
+            // resets element to default behavior
+            Reflect.deleteProperty(element, 'value');
+            Object.defineProperty(element, 'value', nativeDescriptor);
+            Reflect.deleteProperty(element, 'textValue');
+
+            _realValue = null;
         }
     };
 }
