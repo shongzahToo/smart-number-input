@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/shongzahToo/smart-number-input"
+    "url": "git+https://github.com/shongzahToo/smart-number-input.git"
   },
   "bugs": {
     "url": "https://github.com/shongzahToo/smart-number-input/issues"
