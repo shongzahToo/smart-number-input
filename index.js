@@ -178,8 +178,12 @@ function createNumberInput(element, options = {}) {
             element.removeEventListener('blur', onBlur);
             element.removeEventListener('focus', onFocus);
             element.removeEventListener('keydown', onKeydown);
+
             // remove overridden own property so prototype's descriptor is used:
-            try { delete element.value; } catch (e) { }
+            try {
+                 delete element.value; 
+                 delete element.textValue; 
+            } catch (e) { }
         }
     };
 }
