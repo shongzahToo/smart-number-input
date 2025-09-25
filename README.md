@@ -6,6 +6,7 @@ A tiny, framework‑agnostic utility that turns a regular `<input>` into a well-
 - **Validation**: `min`, `max`, and opt‑out of negatives
 - **Keyboard**: ArrowUp/ArrowDown stepping with a configurable step
 - **Value access**: keep using `input.value` (string)
+- **Value Change Callback**: assign custom callback methods to call on value change on initialization or after
 - **Framework‑agnostic**: works in vanilla JS, React, Vue, etc.
 - **Side‑effect free on import**: only mutates the element you pass to it
 
@@ -71,7 +72,7 @@ Enhances an existing `<input>` (type can be `"text"` or `"number"`) to behave as
 | `min` | `number` | `undefined` | Minimum allowed value (inclusive). |
 | `max` | `number` | `undefined` | Maximum allowed value (inclusive). |
 | `stepValue` / `step` | `number` | `1` | Increment/decrement size for ArrowUp/ArrowDown. |
-| `onValueChange` / `valueChangeCallback` | `(newVal: number\|null, oldVal: number\|null) => void` | `undefined` | Called whenever the underlying numeric value changes. |
+| `onValueChange` / `valueChangeCallback` | `(newVal: number\|null, oldVal: number\|null) => void` | `undefined` | Updates the elements onValueChange property which is called on valid value update. |
 | `onInvalidInput` / `invalidInputCallback` | `(reason: 'negative-violation'\|'min-violation'\|'max-violation' \| Array<...>, ctx: { attempted: string; parsed: number\|null; oldValue: number\|null; element: HTMLInputElement }) => void` | `undefined` | Called once when user input is rejected. |
 
 **Return value**: `{ destroy(): void }` – removes listeners and restores the element.
@@ -83,6 +84,7 @@ Enhances an existing `<input>` (type can be `"text"` or `"number"`) to behave as
 - When focused, the input uses `focusFormat`. When blurred, it uses `blurFormat`.
 - The module parses with numeral.js and enforces `min`, `max`, and `allowNegative` both on free typing and when stepping with Arrow keys.
 - `el.textValue` can be used to read the exact text content of an input field.
+- `el.onValueChange` is read on value change. This can either be set in options or later directly.
 
 ## TypeScript
 

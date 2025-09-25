@@ -17,6 +17,7 @@ function createNumberInput(element, options = {}) {
         valueChangeCallback: options.valueChangeCallback || options.onValueChange || null,
         invalidInputCallback: options.invalidInputCallback || options.onInvalidInput || null,
     };
+    element.onValueChange = opts.onValueChange;
 
     // Save native descriptor to interact with the real underlying value safely
     const nativeDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
@@ -56,11 +57,11 @@ function createNumberInput(element, options = {}) {
 
     // Helper to call value change callback consistently
     function callValueChangeCallback(newValue, oldValue) {
-        if (typeof opts.valueChangeCallback === 'function') {
+        if (typeof element.onValueChange === 'function') {
             try {
-                opts.valueChangeCallback(newValue, oldValue);
+                element.onValueChange(newValue, oldValue);
             } catch (e) {
-                console.warn('Error in valueChangeCallback:', e);
+                console.warn('Error in onValueChange:', e);
             }
         }
     }
