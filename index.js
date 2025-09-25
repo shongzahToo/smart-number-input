@@ -20,7 +20,6 @@ function createNumberInput(element, options = {}) {
 
     // Save native descriptor to interact with the real underlying value safely
     const nativeDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
-
     // Utility property to allow for direct text reading
     Object.defineProperty(element, 'textValue', {
         get() {
@@ -28,7 +27,8 @@ function createNumberInput(element, options = {}) {
         },
         set(v) {
             nativeDescriptor.set.call(element, v)
-        }
+        },
+        configurable: true
     })
 
     // Private numeric value (null for empty/invalid)
@@ -152,7 +152,7 @@ function createNumberInput(element, options = {}) {
             if (opts.max !== undefined && candidate > opts.max) {
                 candidate = opts.max;
             }
-            if(opts.allowNegative !== undefined && candidate < 0) {
+            if(opts.allowNegative === false && candidate < 0) {
                 candidate = 0;
             }
 
